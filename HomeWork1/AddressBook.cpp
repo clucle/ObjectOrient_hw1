@@ -9,7 +9,7 @@ CAddressBook::~CAddressBook()
 {
 }
 
-void CAddressBook::AddPerson(string sName, string sNumber, string sRelation)
+void CAddressBook::AddPerson(string sName, string sNumber, string sRelation, string sEmail)
 {
 }
 
