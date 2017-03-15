@@ -18,10 +18,7 @@ public:
     CAddressBook();
     ~CAddressBook();
 
-    void AddPerson(string sName, string sNumber, string sRelation, string sEmail);
-	void AddPerson(string sName, string sNumber);
-	void AddPerson(string sName, string sNumber, string sRelation);
-	void AddPerson(string sName, string sNumber, string sEmail);
+	void AddPerson(string sName, string sNumber, string sRelation, string sEmail);
     void DelPerson(string sName, string sPhone);
 
     void AddRelation(string sName);

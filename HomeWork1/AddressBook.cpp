@@ -11,8 +11,7 @@ CAddressBook::~CAddressBook()
 
 void CAddressBook::AddPerson(string sName, string sNumber, string sRelation, string sEmail)
 {
-	CPerson NewPerson(sName, sNumber, sRelation, sEmail) ;
-	m_pPerson.push_back(NewPerson);
+
 }
 
 void CAddressBook::DelPerson(string sName, string sPhone)
@@ -34,6 +33,7 @@ void CAddressBook::AddRelation(string sName)
             }
             else {
                 m_sRelation.push_back(sName);
+                SaveRelation();
             }
         }
         else {
@@ -50,6 +50,7 @@ void CAddressBook::DelRelation(string sName)
         if (it != m_sRelation.end())
         {
             m_sRelation.erase(it);
+            SaveRelation();
         }
         else {
             // error can't find
@@ -108,7 +109,9 @@ void CAddressBook::SavePerson()
     int nCount = 20;
 
     for (int i = 0; i < nCount; i++) {
-        CPerson a("AC" + std::to_string(i), "B", "C", "D");
+        CPerson a("AC" + std::to_string(i), "B");
+        a.setRelation("");
+        a.setEmail("");
         vPerson.push_back(a);
     }
  
@@ -127,7 +130,7 @@ void CAddressBook::SavePerson()
 void CAddressBook::SaveRelation()
 {
     ofstream fout;
-    fout.open("Data/Entry.txt");
+    fout.open("Data/Relation.txt");
 
     for (int i = 0; i < m_sRelation.size(); i++) {
         fout << m_sRelation[i] << endl;
