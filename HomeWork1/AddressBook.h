@@ -19,7 +19,7 @@ public:
     CAddressBook();
     ~CAddressBook();
 
-	void AddPerson(string sName, string sNumber, string sRelation, string sEmail);
+	void AddPerson();
 
     void DelPerson_Name(string sName);
 	void DelPerson_Pnumber(string sNumber);
@@ -40,11 +40,13 @@ public:
     void SortRelation();
 
     void Search();
-    void CallMenu();
-
+    
+	void Run();
 
 
 	// View
+	int CallMenu(int state);
 	void ShowPerson();
+	void ShowRelation();
 };
 

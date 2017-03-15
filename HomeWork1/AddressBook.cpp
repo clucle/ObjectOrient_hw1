@@ -11,12 +11,45 @@ CAddressBook::~CAddressBook()
 
 }
 
-void CAddressBook::AddPerson(string sName, string sNumber, string sRelation, string sEmail)
+void CAddressBook::AddPerson()
 {
+	string name = "", number = "", relation = "", Email = "";
+	
+	printf("이름을 입력해주세요 : ");
+	cin >> name;
+	printf("번호를 입력해주세요 : ");
+	cin >> number;
+	ShowRelation();
+	printf("관계를 입력해주세요 없을시 x입력 : ");
+	cin >> relation;
+	printf("Email 을 입력해주세요 없을시 x입력 : ");
+	cin >> Email;
+	while (1)
+	{
+		printf("0번 끝 1번:관계를 생성하시겠습니까? \n2번:이메일을 생성하시겠습니까?\n3번:둘다 생성?");
+		scanf_s("%d", &state);
+		if (state == 1)
+			cin >> relation; break;
+		if (state == 2)
+			cin >> email; break;
+		if (state == 3)
+		{
+			cin >> relation;
+			cin >> email;
+			break;
+		}
+		else
+			printf("1~3까지의 숫자를 다시 쳐주시길 바랍니다.\n");
+	}
+	pDevice->AddPerson(name, number, relation, email);
+	break;
+
+	/*
+	string sName, string sNumber, string sRelation, string sEmail;
 	CPerson NewPerson(sName, sNumber);
 	NewPerson.setRelation(sRelation);
 	NewPerson.setEmail(sEmail);
-	m_pPerson.push_back(NewPerson);
+	m_pPerson.push_back(NewPerson);*/
 }
 
 void CAddressBook::DelPerson_Name(string sName)
@@ -187,15 +220,117 @@ void CAddressBook::Search()
 {
 }
 
-void CAddressBook::CallMenu()
+
+void CAddressBook::Run()
 {
+	LoadPerson();
+	LoadRelation();
+	
+	// 0: 초기화면
+	int state = 0;
+
+	while (true) {
+		ShowPerson();
+		int ichoice = CallMenu(state);
+
+		if (ichoice == 0) break; // 종료
+		if (ichoice == 1) AddPerson();
+	}
+	/*
+	int state = 1;
+	string name;
+	string number;
+	string relation;
+	string email;
+	// basic addperson
+	while (state) {
+		//연락처를 먼저 보여준다. 보통 스마트폰이 연락처를 먼저 보여준다.
+		pDevice->ShowPerson();
+
+		printf("당신의 선택 0 나가기 1 사람 추가 2 사람 삭제 : \n");
+		scanf_s("%d", &state);
+
+		switch (state)
+		{
+		case 0:
+			break;
+		case 1:
+		{
+			
+		}
+		case 2:
+		{
+			int pick = 0;
+			string Name;
+			string PhoneNumber;
+			int Order;
+			printf("전화 번호 리스트를 봅니다\n");
+			pDevice->ShowPerson();
+			printf("어떤방법으로 삭제하실건가요?\n");
+			printf("1: 이름, 2: 전화번호, 3: 넘버 :");
+
+			cin >> pick;
+
+			switch (pick)
+			{
+			case 1:
+				printf("누구를 지우시겠습니까?");
+				cin >> Name;
+				pDevice->DelPerson_Name(Name);
+				break;
+			case 2:
+				printf("누구를 지우시겠습니까?");
+				cin >> PhoneNumber;
+				pDevice->DelPerson_Pnumber(PhoneNumber);
+				break;
+			case 3:
+				printf("몇 번째를 지우시겠습니까?");
+				cin >> Order;
+				pDevice->DelPerson_Order(Order - 1);
+				break;
+			default:
+				printf("1~3까지의 숫자를 쳐주세요");
+				break;
+			}
+		}
+
+		default:
+			//printf("0~?까지의 숫자를 치세요);
+			break;
+		}
+	}*/
 }
 
-
+int CAddressBook::CallMenu(int state)
+{
+	int result = 0;
+	switch (state)
+	{
+	case 0:
+		printf("당신의 선택 0 나가기 1 사람 추가 2 사람 삭제 : ");
+		cin >> result;
+		if (result >= 0 && result < 3) return result;
+		break;
+	default:
+		break;
+	}
+	printf("wrong choice\n");
+	CallMenu(state);
+}
 void CAddressBook::ShowPerson()
 {
+	cout << "      연락처" << endl;
+	printf("이름  번호        관계   이메일\n");
 	vector<CPerson>::iterator it = m_pPerson.begin();
 	for (; it < m_pPerson.end(); it++) {
-		cout << it->getName()<< ' ' << it->getNumber()<<' ' << it->getRelation()<<' '<< it->getEmail()<<endl;
+		cout << it->getName()<< ' ' << it->getNumber()<<' ' <<
+			    it->getRelation()<<' '<< it->getEmail()<<endl;
+	}
+}
+void CAddressBook::ShowRelation()
+{
+	cout << " 관계 목록" << endl;
+	for (int i = 0; i < m_sRelation.size(); i++) {
+		cout << i << "." << m_sRelation[i] << endl;
 	}
 }
