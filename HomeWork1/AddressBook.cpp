@@ -28,12 +28,12 @@ void CAddressBook::DelRelation(string sName)
 void CAddressBook::Load()
 {
     // 이름, 번호, 관계 불러오기
-    ifstream in("Data/Entry.txt");
+    ifstream fin("Data/Entry.txt");
     char receive[100];
 
-    if (in.is_open()) {
+    if (fin.is_open()) {
         // 파일 있을 시 정보 불러오기
-        while (in.getline(receive, sizeof(receive)))
+        while (fin.getline(receive, sizeof(receive)))
         {
             cout << "Receive : " << receive << endl;
         }        
@@ -46,6 +46,11 @@ void CAddressBook::Load()
 
 void CAddressBook::Save()
 {
+    ofstream fout;
+    fout.open("Data/Entry.txt");
+    fout << "write line 1" << endl;
+    fout << "write line 2";
+    fout.close();
 }
 
 void CAddressBook::Search()
