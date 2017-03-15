@@ -1,5 +1,6 @@
 #pragma once
 #include "Person.h"
+#include <vector>
 #include <fstream>
 #include <iostream>
 
@@ -8,6 +9,7 @@ class CAddressBook
 private:
     unsigned __int16 m_nCount;
     CPerson* m_pPerson = NULL;
+    vector<string> m_sRelation;
 
 public:
     CAddressBook();
@@ -22,7 +24,12 @@ public:
     void DelRelation(string sName);
 
     void Load();
+    void LoadPerson();
+    void LoadRelation();
+
     void Save();
+    void SavePerson();
+    void SaveRelation();
 
     void Search();
     void CallMenu();
