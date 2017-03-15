@@ -46,10 +46,24 @@ void CAddressBook::Load()
 
 void CAddressBook::Save()
 {
+    vector<CPerson> vPerson;
+    int nCount = 20;
+
+    for (int i = 0; i < nCount; i++) {
+        CPerson a("AC" + std::to_string(i), "B", "C", "D");
+        vPerson.push_back(a);
+    }
+ 
     ofstream fout;
     fout.open("Data/Entry.txt");
-    fout << "write line 1" << endl;
-    fout << "write line 2";
+
+    for (int i = 0; i < nCount; i++) {
+        fout << vPerson[i].getName()  << "&*(";
+        fout << vPerson[i].getNumber() << "&*(";
+        fout << vPerson[i].getRelation() << "&*(";
+        fout << vPerson[i].getEmail() << endl;
+    }
+    
     fout.close();
 }
 
