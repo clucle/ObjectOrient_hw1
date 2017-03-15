@@ -11,14 +11,24 @@ CAddressBook::~CAddressBook()
 
 void CAddressBook::AddPerson(string sName, string sNumber, string sRelation, string sEmail)
 {
-	CPerson NewPerson(sName, sNumber, sRelation, sEmail) ;
+	CPerson NewPerson(sName, sNumber);
+	NewPerson.setRelation = sRelation;
+	NewPerson.setEmail = sEmail;
 	m_pPerson.push_back(NewPerson);
 }
 
-void CAddressBook::DelPerson(string sName, string sPhone)
+void CAddressBook::DelPerson_Name(string sName)
 {
-}
 
+}
+void CAddressBook::DelPerson_Pnumber(string sNumber)
+{
+
+}
+void CAddressBook::DelPerson_Order(string sOrder)
+{
+
+}
 void CAddressBook::AddRelation(string sName)
 {
     if (m_sRelation.size() > m_nRelation) {
@@ -142,4 +152,13 @@ void CAddressBook::Search()
 
 void CAddressBook::CallMenu()
 {
+}
+
+
+void CAddressBook::ShowPerson()
+{
+	vector<CPerson>::iterator it = m_pPerson.begin();
+	for (; it < m_pPerson.end(); it++) {
+		cout << it->getName() << it->getNumber << it->getRelation << it->getEmail<<endl;
+	}
 }

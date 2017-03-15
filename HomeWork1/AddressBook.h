@@ -18,11 +18,10 @@ public:
     CAddressBook();
     ~CAddressBook();
 
-    void AddPerson(string sName, string sNumber, string sRelation, string sEmail);
-	void AddPerson(string sName, string sNumber);
-	void AddPerson(string sName, string sNumber, string sRelation);
-	void AddPerson(string sName, string sNumber, string sEmail);
-    void DelPerson(string sName, string sPhone);
+	void AddPerson(string sName, string sNumber, string sRelation, string sEmail);
+    void DelPerson_Name(string sName);
+	void DelPerson_Pnumber(string sNumber);
+	void DelPerson_Order(string sOrder);
 
     void AddRelation(string sName);
     void DelRelation(string sName);
@@ -37,5 +36,10 @@ public:
 
     void Search();
     void CallMenu();
+
+
+
+	// View
+	void ShowPerson();
 };
 
