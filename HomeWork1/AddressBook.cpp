@@ -9,8 +9,10 @@ CAddressBook::~CAddressBook()
 {
 }
 
-void CAddressBook::AddPerson(string sName, string sNumber, string sRelation)
+void CAddressBook::AddPerson(string sName, string sNumber, string sRelation, string sEmail)
 {
+	CPerson NewPerson(sName, sNumber, sRelation, sEmail) ;
+	m_pPerson.push_back(NewPerson);
 }
 
 void CAddressBook::DelPerson(string sName, string sPhone)
@@ -30,12 +32,13 @@ void CAddressBook::Load()
     // 이름, 번호, 관계 불러오기
     ifstream fin("Data/Entry.txt");
     char receive[100];
-
+	int i = 1;
     if (fin.is_open()) {
         // 파일 있을 시 정보 불러오기
         while (fin.getline(receive, sizeof(receive)))
         {
-            cout << "Receive : " << receive << endl;
+            cout << "Receive : "<< i <<" " << receive << endl;
+			i++;
         }        
     }
     else {

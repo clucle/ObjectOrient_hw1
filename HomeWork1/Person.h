@@ -14,6 +14,9 @@ private:
 public:
     CPerson(string sName, string sNumber,
          string m_sRelation, string m_sEmail);
+	CPerson(string sName, string sNumber);
+	CPerson(string sName, string sNumber, string m_sRelation);
+	CPerson(string sName, string sNumber, string m_sEmail);
     ~CPerson();
 
     string getName() { return m_sName; }

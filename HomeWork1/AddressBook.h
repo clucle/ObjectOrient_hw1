@@ -15,7 +15,10 @@ public:
     ~CAddressBook();
 
     void AddPerson(string sName, string sNumber, string sRelation, string sEmail);
-    void DelPerson(string sName = NULL, string sPhone = NULL);
+	void AddPerson(string sName, string sNumber);
+	void AddPerson(string sName, string sNumber, string sRelation);
+	void AddPerson(string sName, string sNumber, string sEmail);
+    void DelPerson(string sName, string sPhone);
 
     void AddRelation(string sName);
     void DelRelation(string sName);
