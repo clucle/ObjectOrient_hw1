@@ -104,9 +104,6 @@ void CAddressBook::LoadPerson()
         // 颇老 绝阑 矫 货肺款 颇老 积己
         ofstream outputFile("Data/Entry.txt");
     }
-    for (int i = 0; i < m_pPerson.size(); i++) {
-        cout << m_pPerson[i].getName() << m_pPerson[i].getNumber() << m_pPerson[i].getRelation() << endl;
-    }
 }
 void CAddressBook::LoadRelation()
 {
@@ -158,6 +155,7 @@ void CAddressBook::SaveRelation()
 
 void CAddressBook::SortPerson()
 {
+    cout << "A" << endl;
     sort(m_pPerson.begin(), m_pPerson.end());
 }
 
