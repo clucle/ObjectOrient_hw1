@@ -68,20 +68,44 @@ void CAddressBook::LoadPerson()
     ifstream fin_entry("Data/Entry.txt");
     char receive[100];
 
-	int i = 1;
-
     if (fin_entry.is_open()) {
-
+        string sName;
+        string sNumber;
+        string sRelation = "";
+        string sEmail = "";
         // 파일 있을 시 정보 불러오기
         while (fin_entry.getline(receive, sizeof(receive)))
         {
-            cout << "Receive : "<< i <<" " << receive << endl;
-			i++;
+            sRelation = "";
+            sEmail = "";
+
+            int count = 0;
+            char *context = NULL;
+            char *ptr = strtok_s(receive, "&*(", &context);      // " " 공백 문자를 기준으로 문자열을 자름, 포인터 반환
+
+            while (ptr != NULL)               // 자른 문자열이 나오지 않을 때까지 반복
+            {
+                if (count == 0) sName = ptr;
+                if (count == 1) sNumber = ptr;
+                if (count == 2) sRelation = ptr;
+                if (count == 3) sEmail = ptr;
+
+                count++;
+                ptr = strtok_s(NULL, "&*(", &context);      // 다음 문자열을 잘라서 포인터를 반환
+            }
+            CPerson person(sName, sNumber);
+            if (sRelation != "") person.setRelation(sRelation);
+            if (sEmail != "") person.setEmail(sEmail);
+
+            m_pPerson.push_back(person);
         }        
     }
     else {
         // 파일 없을 시 새로운 파일 생성
         ofstream outputFile("Data/Entry.txt");
+    }
+    for (int i = 0; i < m_pPerson.size(); i++) {
+        cout << m_pPerson[i].getName() << m_pPerson[i].getNumber() << m_pPerson[i].getRelation() << endl;
     }
 }
 void CAddressBook::LoadRelation()
@@ -105,8 +129,11 @@ void CAddressBook::LoadRelation()
 
 void CAddressBook::SavePerson()
 {
+
     ofstream fout;
     fout.open("Data/Entry.txt");
+
+    SortPerson();
 
     for (int i = 0; i < m_pPerson.size(); i++) {
         fout << m_pPerson[i].getName()  << "&*(";
@@ -127,6 +154,11 @@ void CAddressBook::SaveRelation()
     }
 
     fout.close();
+}
+
+void CAddressBook::SortPerson()
+{
+    sort(m_pPerson.begin(), m_pPerson.end());
 }
 
 void CAddressBook::Search()

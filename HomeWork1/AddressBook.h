@@ -3,7 +3,8 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-#include <vector>
+#include <algorithm>
+
 using namespace std;
 class CAddressBook
 {
@@ -31,6 +32,9 @@ public:
     void Save();
     void SavePerson();
     void SaveRelation();
+
+    void SortPerson();
+    void SortRelation();
 
     void Search();
     void CallMenu();
