@@ -4,6 +4,7 @@ private:
 m_sName (string)
 m_sNumber[11] (string) 0xx-xxxx-xxxx, 0xx-xxx-xxxx
 m_sRelation (string)
+m_sEmail (string)
 
 public:
 construct, destroy
