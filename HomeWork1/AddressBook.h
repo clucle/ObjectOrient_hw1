@@ -9,7 +9,9 @@ class CAddressBook
 private:
     unsigned __int16 m_nCount;
     CPerson* m_pPerson = NULL;
+
     vector<string> m_sRelation;
+    unsigned __int16 m_nRelation = 20;
 
 public:
     CAddressBook();

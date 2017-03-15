@@ -19,11 +19,44 @@ void CAddressBook::DelPerson(string sName, string sPhone)
 
 void CAddressBook::AddRelation(string sName)
 {
-    
+    if (m_sRelation.size() > m_nRelation) {
+        // error over maxcount list
+    }
+    else {
+        if (sName != "") {
+            vector<string>::iterator it;
+            it = find(m_sRelation.begin(), m_sRelation.end(), sName);
+            if (it != m_sRelation.end())
+            {
+                // error same Relation
+            }
+            else {
+                m_sRelation.push_back(sName);
+            }
+        }
+        else {
+            // error non blank plz
+        }
+    }
 }
 
 void CAddressBook::DelRelation(string sName)
 {
+    if (sName != "") {
+        vector<string>::iterator it;
+        it = find(m_sRelation.begin(), m_sRelation.end(), sName);
+        if (it != m_sRelation.end())
+        {
+            m_sRelation.erase(it);
+        }
+        else {
+            // error can't find
+        }
+
+    }
+    else {
+        // error non blank plz
+    }
 }
 
 void CAddressBook::LoadPerson()
