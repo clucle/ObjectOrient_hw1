@@ -14,7 +14,7 @@ int main() {
 		pDevice->ShowPerson();
 		
 		printf("당신의 선택 0 나가기 1 사람 추가 2 사람 삭제 : \n");
-		scanf("%d", &state);
+		scanf_s("%d", &state);
 
 		switch (state)
 		{
@@ -22,12 +22,13 @@ int main() {
 			break;
 		case 1:
 		{
+			printf("이름과 핸드폰 번호를 적어주세요\n ex) 최승민 01048173838");
 			cin >> name;
 			cin >> number;
 			while (1)
 			{
-				printf("1번:관계를 생성하시겠습니까? \n2번:이메일을 생성하시겠습니까?\n3번:둘다 생성?");
-				scanf("%d", &state);
+				printf("0번 끝 1번:관계를 생성하시겠습니까? \n2번:이메일을 생성하시겠습니까?\n3번:둘다 생성?");
+				scanf_s("%d", &state);
 				if (state == 1)
 					cin >> relation; break;
 				if (state == 2)
@@ -42,13 +43,14 @@ int main() {
 					printf("1~3까지의 숫자를 다시 쳐주시길 바랍니다.\n");
 			}
 			pDevice->AddPerson(name, number, relation, email);
+			break;
 		}
 		case 2:
 		{
 			int pick = 0;
 			string Name;
 			string PhoneNumber;
-			string Order;
+			int Order;
 			printf("전화 번호 리스트를 봅니다\n");
 			pDevice->ShowPerson();
 			printf("어떤방법으로 삭제하실건가요?\n");
@@ -71,7 +73,8 @@ int main() {
 			case 3:
 				printf("몇 번째를 지우시겠습니까?");
 				cin >> Order;
-				pDevice->DelPerson_Order(Order);
+				pDevice->DelPerson_Order(Order-1);
+				break;
 			default:
 				printf("1~3까지의 숫자를 쳐주세요");
 				break;

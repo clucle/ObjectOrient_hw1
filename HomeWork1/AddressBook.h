@@ -21,7 +21,7 @@ public:
 	void AddPerson(string sName, string sNumber, string sRelation, string sEmail);
     void DelPerson_Name(string sName);
 	void DelPerson_Pnumber(string sNumber);
-	void DelPerson_Order(string sOrder);
+	void DelPerson_Order(int iOrder);
 
     void AddRelation(string sName);
     void DelRelation(string sName);

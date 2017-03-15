@@ -2,32 +2,81 @@
 
 CAddressBook::CAddressBook()
 {
+
 }
 
 
 CAddressBook::~CAddressBook()
 {
+
 }
 
 void CAddressBook::AddPerson(string sName, string sNumber, string sRelation, string sEmail)
 {
 	CPerson NewPerson(sName, sNumber);
-	NewPerson.setRelation = sRelation;
-	NewPerson.setEmail = sEmail;
+	NewPerson.setRelation(sRelation);
+	NewPerson.setEmail(sEmail);
 	m_pPerson.push_back(NewPerson);
 }
 
 void CAddressBook::DelPerson_Name(string sName)
 {
+	//bool result = false;
+	
+	for (int i = 0; i < m_pPerson.size(); i++) {
+		if (m_pPerson[i].getName() == sName) {
+			//result = true;
+			m_pPerson.erase(m_pPerson.begin() + i);
+			break;
+		}
+	}
+	/*
+	cout << "AAA" << endl;
+	string tmp;
+	if (sName != "")
+	{	
+		vector<CPerson>::iterator it= m_pPerson.begin();
+		
 
+
+		for (; it < m_pPerson.end(); it++)
+		{
+			tmp = it->getName();
+			if (tmp == sName && it != m_pPerson.end())
+			{
+				m_pPerson.erase(it);
+			}
+			else {
+				printf("finding\n");
+			}
+		}
+	}
+	else
+	{
+		//error can't find
+	}*/
+	
 }
 void CAddressBook::DelPerson_Pnumber(string sNumber)
 {
-
+	for (int i = 0; i < m_pPerson.size(); i++) {
+		if (m_pPerson[i].getNumber() == sNumber) {
+			//result = true;
+			m_pPerson.erase(m_pPerson.begin() + i);
+			break;
+		}
+	}
 }
-void CAddressBook::DelPerson_Order(string sOrder)
+void CAddressBook::DelPerson_Order(int iOrder)
 {
-
+	m_pPerson.erase(m_pPerson.begin() + iOrder);
+	/*
+	for (int i = 0; i < m_pPerson.size(); i++) {
+		if (m_pPerson[i].getName() == sNumber) {
+			//result = true;
+			m_pPerson.erase(m_pPerson.begin() + i);
+			break;
+		}*/
 }
 void CAddressBook::AddRelation(string sName)
 {
@@ -118,7 +167,7 @@ void CAddressBook::SavePerson()
     int nCount = 20;
 
     for (int i = 0; i < nCount; i++) {
-        CPerson a("AC" + std::to_string(i), "B", "C", "D");
+        CPerson a("AC" + std::to_string(i), "B");
         vPerson.push_back(a);
     }
  
@@ -159,6 +208,6 @@ void CAddressBook::ShowPerson()
 {
 	vector<CPerson>::iterator it = m_pPerson.begin();
 	for (; it < m_pPerson.end(); it++) {
-		cout << it->getName() << it->getNumber << it->getRelation << it->getEmail<<endl;
+		cout << it->getName()<< ' ' << it->getNumber()<<' ' << it->getRelation()<<' '<< it->getEmail()<<endl;
 	}
 }

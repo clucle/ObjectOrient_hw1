@@ -11,14 +11,13 @@ construct, destroy
 get, set
 
 
-
 CAddressBook
 private:
 m_nCount (int)
 m_pPerson (CPerson *)
 
 public:
-AddPerson(string sName, string sNumber string Relation);
+AddPerson(string sName, string sNumber string Relation, string sEmail);
 DelPerson(string sName = NULL, string sPhone = NULL, string Relation = NULL);
 AddRelation(string sName);
 DelRelation(string sName);
