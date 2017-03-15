@@ -155,7 +155,6 @@ void CAddressBook::SaveRelation()
 
 void CAddressBook::SortPerson()
 {
-    cout << "A" << endl;
     sort(m_pPerson.begin(), m_pPerson.end());
 }
 
