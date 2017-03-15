@@ -21,47 +21,19 @@ void CAddressBook::AddPerson(string sName, string sNumber, string sRelation, str
 
 void CAddressBook::DelPerson_Name(string sName)
 {
-	//bool result = false;
-	
+    // 이름으로 삭제
 	for (int i = 0; i < m_pPerson.size(); i++) {
 		if (m_pPerson[i].getName() == sName) {
-			//result = true;
 			m_pPerson.erase(m_pPerson.begin() + i);
 			break;
 		}
 	}
-	/*
-	cout << "AAA" << endl;
-	string tmp;
-	if (sName != "")
-	{	
-		vector<CPerson>::iterator it= m_pPerson.begin();
-		
-
-
-		for (; it < m_pPerson.end(); it++)
-		{
-			tmp = it->getName();
-			if (tmp == sName && it != m_pPerson.end())
-			{
-				m_pPerson.erase(it);
-			}
-			else {
-				printf("finding\n");
-			}
-		}
-	}
-	else
-	{
-		//error can't find
-	}*/
-	
 }
 void CAddressBook::DelPerson_Pnumber(string sNumber)
 {
+    // 번호로 삭제
 	for (int i = 0; i < m_pPerson.size(); i++) {
 		if (m_pPerson[i].getNumber() == sNumber) {
-			//result = true;
 			m_pPerson.erase(m_pPerson.begin() + i);
 			break;
 		}
@@ -69,14 +41,8 @@ void CAddressBook::DelPerson_Pnumber(string sNumber)
 }
 void CAddressBook::DelPerson_Order(int iOrder)
 {
+    // 순서로 삭제
 	m_pPerson.erase(m_pPerson.begin() + iOrder);
-	/*
-	for (int i = 0; i < m_pPerson.size(); i++) {
-		if (m_pPerson[i].getName() == sNumber) {
-			//result = true;
-			m_pPerson.erase(m_pPerson.begin() + i);
-			break;
-		}*/
 }
 void CAddressBook::AddRelation(string sName)
 {
@@ -93,6 +59,7 @@ void CAddressBook::AddRelation(string sName)
             }
             else {
                 m_sRelation.push_back(sName);
+                SaveRelation();
             }
         }
         else {
@@ -109,6 +76,7 @@ void CAddressBook::DelRelation(string sName)
         if (it != m_sRelation.end())
         {
             m_sRelation.erase(it);
+            SaveRelation();
         }
         else {
             // error can't find
@@ -126,15 +94,36 @@ void CAddressBook::LoadPerson()
     ifstream fin_entry("Data/Entry.txt");
     char receive[100];
 
-	int i = 1;
-
     if (fin_entry.is_open()) {
-
+        string sName;
+        string sNumber;
+        string sRelation = "";
+        string sEmail = "";
         // 파일 있을 시 정보 불러오기
         while (fin_entry.getline(receive, sizeof(receive)))
         {
-            cout << "Receive : "<< i <<" " << receive << endl;
-			i++;
+            sRelation = "";
+            sEmail = "";
+
+            int count = 0;
+            char *context = NULL;
+            char *ptr = strtok_s(receive, "&*(", &context);      // " " 공백 문자를 기준으로 문자열을 자름, 포인터 반환
+
+            while (ptr != NULL)               // 자른 문자열이 나오지 않을 때까지 반복
+            {
+                if (count == 0) sName = ptr;
+                if (count == 1) sNumber = ptr;
+                if (count == 2) sRelation = ptr;
+                if (count == 3) sEmail = ptr;
+
+                count++;
+                ptr = strtok_s(NULL, "&*(", &context);      // 다음 문자열을 잘라서 포인터를 반환
+            }
+            CPerson person(sName, sNumber);
+            if (sRelation != "") person.setRelation(sRelation);
+            if (sEmail != "") person.setEmail(sEmail);
+
+            m_pPerson.push_back(person);
         }        
     }
     else {
@@ -163,22 +152,16 @@ void CAddressBook::LoadRelation()
 
 void CAddressBook::SavePerson()
 {
-    vector<CPerson> vPerson;
-    int nCount = 20;
-
-    for (int i = 0; i < nCount; i++) {
-        CPerson a("AC" + std::to_string(i), "B");
-        vPerson.push_back(a);
-    }
- 
     ofstream fout;
     fout.open("Data/Entry.txt");
 
-    for (int i = 0; i < nCount; i++) {
-        fout << vPerson[i].getName()  << "&*(";
-        fout << vPerson[i].getNumber() << "&*(";
-        fout << vPerson[i].getRelation() << "&*(";
-        fout << vPerson[i].getEmail() << endl;
+    SortPerson();
+
+    for (int i = 0; i < m_pPerson.size(); i++) {
+        fout << m_pPerson[i].getName()  << "&*(";
+        fout << m_pPerson[i].getNumber() << "&*(";
+        fout << m_pPerson[i].getRelation() << "&*(";
+        fout << m_pPerson[i].getEmail() << endl;
     }
     
     fout.close();
@@ -186,13 +169,18 @@ void CAddressBook::SavePerson()
 void CAddressBook::SaveRelation()
 {
     ofstream fout;
-    fout.open("Data/Entry.txt");
+    fout.open("Data/Relation.txt");
 
     for (int i = 0; i < m_sRelation.size(); i++) {
         fout << m_sRelation[i] << endl;
     }
 
     fout.close();
+}
+
+void CAddressBook::SortPerson()
+{
+    sort(m_pPerson.begin(), m_pPerson.end());
 }
 
 void CAddressBook::Search()

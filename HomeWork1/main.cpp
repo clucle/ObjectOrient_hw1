@@ -2,6 +2,7 @@
 using namespace std;
 int main() {
     CAddressBook* pDevice = new CAddressBook();
+
 	
 	int state = 1;
 	string name;
@@ -86,6 +87,7 @@ int main() {
 			break;
 	}
 		}	
+
     delete pDevice;
     return 0;
 }

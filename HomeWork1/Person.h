@@ -28,5 +28,9 @@ public:
         { m_sRelation = sRelation; }
     void setEmail(string sEmail)
         { m_sEmail = sEmail; }
-};
 
+    bool operator<(const  CPerson & other)
+    {
+        return m_sName < other.m_sName;
+    }
+};
