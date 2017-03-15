@@ -11,6 +11,9 @@ private:
     unsigned __int16 m_nCount;
     vector<CPerson> m_pPerson;
 
+    vector<string> m_sRelation;
+    unsigned __int16 m_nRelation = 20;
+
 public:
     CAddressBook();
     ~CAddressBook();
@@ -22,7 +25,12 @@ public:
     void DelRelation(string sName);
 
     void Load();
+    void LoadPerson();
+    void LoadRelation();
+
     void Save();
+    void SavePerson();
+    void SaveRelation();
 
     void Search();
     void CallMenu();
