@@ -105,24 +105,14 @@ void CAddressBook::LoadRelation()
 
 void CAddressBook::SavePerson()
 {
-    vector<CPerson> vPerson;
-    int nCount = 20;
-
-    for (int i = 0; i < nCount; i++) {
-        CPerson a("AC" + std::to_string(i), "B");
-        a.setRelation("");
-        a.setEmail("");
-        vPerson.push_back(a);
-    }
- 
     ofstream fout;
     fout.open("Data/Entry.txt");
 
-    for (int i = 0; i < nCount; i++) {
-        fout << vPerson[i].getName()  << "&*(";
-        fout << vPerson[i].getNumber() << "&*(";
-        fout << vPerson[i].getRelation() << "&*(";
-        fout << vPerson[i].getEmail() << endl;
+    for (int i = 0; i < m_pPerson.size(); i++) {
+        fout << m_pPerson[i].getName()  << "&*(";
+        fout << m_pPerson[i].getNumber() << "&*(";
+        fout << m_pPerson[i].getRelation() << "&*(";
+        fout << m_pPerson[i].getEmail() << endl;
     }
     
     fout.close();
