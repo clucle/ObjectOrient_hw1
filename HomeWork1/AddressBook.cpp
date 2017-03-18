@@ -340,6 +340,29 @@ int CAddressBook::CallMenu(int state)
 
         if (pick < 2) {
             printf("검색할 단어의 일부 : ");
+            string sFind;
+            cin >> sFind;
+
+            cout << "\n      연락처" << endl;
+            printf("n 이름  번호        관계   이메일\n");
+            int k = 0;
+            CSearch mySearch;
+            for (int i = 0; i < m_pPerson.size(); i++) {
+                if (pick == 0 && mySearch.isSearched(m_pPerson[i].getName(), sFind)) {
+                    cout << k << ' ';
+                    cout << m_pPerson[i].getName() << ' ' << m_pPerson[i].getNumber() << ' ' <<
+                        m_pPerson[i].getRelation() << ' ' << m_pPerson[i].getEmail() << endl;
+                    k++;
+                }
+                if (pick == 1 && mySearch.isSearched(m_pPerson[i].getNumber(), sFind)) {
+                    cout << k << ' ';
+                    cout << m_pPerson[i].getName() << ' ' << m_pPerson[i].getNumber() << ' ' <<
+                        m_pPerson[i].getRelation() << ' ' << m_pPerson[i].getEmail() << endl;
+                    k++;
+                }
+
+            }
+
         }
 
         if (pick == 2) {

@@ -1,6 +1,6 @@
 #pragma once
 #include "Person.h"
-#include <vector>
+#include "Search.h"
 #include <fstream>
 #include <iostream>
 #include <algorithm>
@@ -29,16 +29,13 @@ public:
     void AddRelation(string sName);
     void DelRelation(string sName);
 
-    void Load();
     void LoadPerson();
     void LoadRelation();
 
-    void Save();
     void SavePerson();
     void SaveRelation();
 
     void SortPerson();
-    void SortRelation();
 
     void Search();
     
