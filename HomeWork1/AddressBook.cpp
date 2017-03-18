@@ -44,7 +44,8 @@ void CAddressBook::DelPerson_Pnumber(string sNumber)
 void CAddressBook::DelPerson_Order(int iOrder)
 {
     // 순서로 삭제
-	m_pPerson.erase(m_pPerson.begin() + iOrder - 1);
+    if (iOrder < m_pPerson.size()) 
+        m_pPerson.erase(m_pPerson.begin() + iOrder - 1);
 }
 void CAddressBook::AddRelation(string sName)
 {
@@ -126,7 +127,9 @@ void CAddressBook::LoadPerson()
             if (sEmail != "") person.setEmail(sEmail);
 
             m_pPerson.push_back(person);
-        }        
+        }
+        SortPerson();
+        SavePerson();
     }
     else {
         // 파일 없을 시 새로운 파일 생성
@@ -195,9 +198,6 @@ void CAddressBook::Run()
 	LoadPerson();
 	LoadRelation();
 	
-	// 1 : 초기 화면
-    // 2 : 사람 추가
-    // 3 : 사람 삭제
 	int state = 1;
 
 	while (state > 0) {
@@ -209,20 +209,32 @@ void CAddressBook::Run()
 		int ichoice = CallMenu(state);
 
         if (state == 1) {
+            // 메인화면
             if (ichoice == 0) break; // 종료
             if (ichoice == 1) state = 2; // 사람 추가
             if (ichoice == 2) state = 3; // 사람 삭제
+            if (ichoice == 3) state = 4; // 4 : 관계 목록 추가
+            if (ichoice == 4) state = 5; // 5 : 관계 목록 삭제
         }
         else if (state == 2) {
+            // 사람 추가 화면
             if (ichoice == 1) state = 1; //메인 화면으로 돌아감
         }
         else if (state == 3) {
+            // 사람 삭제 화면
             if (ichoice == 0){
                 state = 1;
             }
             if (ichoice == 1) state = 1; //메인 화면으로 돌아감
         }
-        
+        else if (state == 4) {
+            // 관계 추가 화면
+            if (ichoice == 1) state = 1;
+        }
+        else if (state == 5) {
+            // 관계 삭제 화면
+            if (ichoice == 1) state = 1;
+        }
 	}
 }
 
@@ -235,10 +247,13 @@ int CAddressBook::CallMenu(int state)
         printf("   0 : 나가기\n");
         printf("   1 : 사람 추가\n");
         printf("   2 : 사람 삭제\n");
+        printf("   3 : 관계 목록 추가\n");
+        printf("   4 : 관계 목록 삭제\n");
+
         printf(" 선택해주세요 : ");
 
         cin >> result;
-        if (SelectCorrect(result, 2)) return result;
+        if (SelectCorrect(result, 4)) return result;
     }
     else if (state == 2) {
         string name = "", number = "", relation = "", Email = "";
@@ -288,6 +303,22 @@ int CAddressBook::CallMenu(int state)
         SavePerson();
         return 1;
     }
+    else if (state == 4) {
+        ShowRelation();
+        string sInput;
+        printf("\n추가할 관계 목록을 적어주세요 : ");
+        cin >> sInput;
+        AddRelation(sInput);
+        return 1;
+    }
+    else if (state == 5) {
+        ShowRelation();
+        string sInput;
+        printf("\n삭제할 관계 목록을 적어주세요 : ");
+        cin >> sInput;
+        DelRelation(sInput);
+        return 1;
+    }
 
 	printf("wrong choice\n");
 	CallMenu(state);
@@ -310,7 +341,7 @@ void CAddressBook::ShowRelation()
 {
 	cout << " 관계 목록" << endl;
 	for (int i = 0; i < m_sRelation.size(); i++) {
-		cout << i << "." << m_sRelation[i] << endl;
+		cout << i << ". " << m_sRelation[i] << endl;
 	}
 }
 
