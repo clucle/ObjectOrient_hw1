@@ -416,7 +416,10 @@ int CAddressBook::CallMenu(int state)
         string sChange;
         int iChange;
         
+        ClearScreen();
+
         if (iSelect == 0) {
+            printf("이름을 수정합니다\n");
             printf("수정 전 : ");
             cout << m_pPerson[iNum].getName() << endl;
             printf("수정 후 : ");
@@ -424,6 +427,7 @@ int CAddressBook::CallMenu(int state)
             m_pPerson[iNum].setName(sChange);
         }
         else if (iSelect == 1) {
+            printf("번호를 수정합니다\n");
             printf("수정 전 : ");
             cout << m_pPerson[iNum].getNumber() << endl;
             printf("수정 후 : ");
@@ -431,6 +435,7 @@ int CAddressBook::CallMenu(int state)
             m_pPerson[iNum].setNumber(sChange);
         }
         else if (iSelect == 2) {
+            printf("관계를 수정합니다\n");
             printf("수정 전 : ");
             cout << m_pPerson[iNum].getRelation() << endl;
             printf("수정 후 : ");
@@ -442,6 +447,7 @@ int CAddressBook::CallMenu(int state)
             else m_pPerson[iNum].setRelation(m_sRelation[iChange]);
         }
         else if (iSelect == 3) {
+            printf("Email을 수정합니다\n");
             printf("수정 전 : ");
             cout << m_pPerson[iNum].getEmail() << endl;
             printf("수정 후 : ");
