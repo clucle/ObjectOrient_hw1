@@ -282,3 +282,4 @@ __pycache__/
 
 # MyIgnore
 HomeWork1/Data/*.*
+HomeWork1/Data/SMS/*.*
