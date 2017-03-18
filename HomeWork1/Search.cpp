@@ -27,7 +27,7 @@ vector<int> getPi(string p) {
 
 vector<int> kmp(string s, string p) {
     vector<int> ans;
-    auto pi = getPi(p);
+    vector<int> pi = getPi(p);
     int n = (int)s.size(), m = (int)p.size(), j = 0;
     for (int i = 0; i < n; i++) {
         while (j>0 && s[i] != p[j])
@@ -48,9 +48,9 @@ vector<int> kmp(string s, string p) {
 
 bool CSearch::isSearched(string sName, string sFind) {
     auto matched = kmp(sName, sFind);
-    for (auto i : matched)
+    for (auto i : matched) {
         return true;
-
+    }
     return false;
 }
 

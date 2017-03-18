@@ -3,7 +3,7 @@
 
 CAddressBook::CAddressBook()
 {
-
+    m_nRelation = 20;
 }
 
 

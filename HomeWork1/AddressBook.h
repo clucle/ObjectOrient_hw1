@@ -1,7 +1,14 @@
 #pragma once
+#ifndef __STRING_H__
+#define __STRING_H__
+#include <string>
+#endif
+#include <string.h>
 #include "Person.h"
 #include "Search.h"
 #include "SMS.h"
+
+
 #include <fstream>
 #include <iostream>
 #include <algorithm>
@@ -14,7 +21,7 @@ private:
     vector<CPerson> m_pPerson;
 
     vector<string> m_sRelation;
-    unsigned __int16 m_nRelation = 20;
+    unsigned __int16 m_nRelation;
 
     vector<CSMS> m_pSMS;
 

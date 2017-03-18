@@ -8,8 +8,8 @@ class CPerson
 private:
     string m_sName;
     string m_sNumber;
-    string m_sRelation="";
-    string m_sEmail="";
+    string m_sRelation;
+    string m_sEmail;
 
 public:
 	CPerson(string sName, string sNumber);
