@@ -18,6 +18,7 @@ void CAddressBook::AddPerson(string sName, string sNumber, string sRelation, str
 	if (sRelation != "x") NewPerson.setRelation(sRelation);
     if (sEmail != "x")    NewPerson.setEmail(sEmail);
 	m_pPerson.push_back(NewPerson);
+    SavePerson();
 }
 
 void CAddressBook::DelPerson_Name(string sName)
@@ -200,7 +201,6 @@ void CAddressBook::Run()
 	int state = 1;
 
 	while (state > 0) {
-
         if (state == 1) {
             ShowPerson();
         }
@@ -209,11 +209,12 @@ void CAddressBook::Run()
 
         if (state == 1) {
             if (ichoice == 0) break; // 종료
-            if (ichoice == 1) state = 2;
+            if (ichoice == 1) state = 2; // 사람 추가
         }
         else if (state == 2) {
             if (ichoice == 1) state = 1; //메인 화면으로 돌아감
         }
+        ClearScreen();
 	}
 	/*
 	int state = 1;
@@ -284,7 +285,13 @@ int CAddressBook::CallMenu(int state)
 {
 	int result = 0;
     if (state == 1) {
-        printf("당신의 선택 0 나가기 1 사람 추가 2 사람 삭제 : ");
+
+        printf("\n- 당신의 선택 -\n");
+        printf("   0 : 나가기\n");
+        printf("   1 : 사람 추가\n");
+        printf("   2 : 사람 삭제\n");
+        printf(" 선택해주세요 : ");
+
         cin >> result;
         if (result >= 0 && result < 3) return result;
     }
@@ -316,6 +323,7 @@ void CAddressBook::ShowPerson()
 		cout << it->getName()<< ' ' << it->getNumber()<<' ' <<
 			    it->getRelation()<<' '<< it->getEmail()<<endl;
 	}
+    printf("------------------------------------");
 }
 void CAddressBook::ShowRelation()
 {
