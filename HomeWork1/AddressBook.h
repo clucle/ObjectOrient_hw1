@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include <direct.h>
 
 using namespace std;
 class CAddressBook
@@ -19,7 +20,7 @@ public:
     CAddressBook();
     ~CAddressBook();
 
-	void AddPerson();
+	void AddPerson(string sName, string sNumber, string sRelation, string sEmail);
 
     void DelPerson_Name(string sName);
 	void DelPerson_Pnumber(string sNumber);
@@ -48,5 +49,8 @@ public:
 	int CallMenu(int state);
 	void ShowPerson();
 	void ShowRelation();
+
+    // mkdir
+    void MakeDir();
 };
 

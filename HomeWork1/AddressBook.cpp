@@ -1,5 +1,6 @@
 #include "AddressBook.h"
 
+
 CAddressBook::CAddressBook()
 {
 
@@ -11,45 +12,12 @@ CAddressBook::~CAddressBook()
 
 }
 
-void CAddressBook::AddPerson()
+void CAddressBook::AddPerson(string sName, string sNumber, string sRelation, string sEmail)
 {
-	string name = "", number = "", relation = "", Email = "";
-	
-	printf("이름을 입력해주세요 : ");
-	cin >> name;
-	printf("번호를 입력해주세요 : ");
-	cin >> number;
-	ShowRelation();
-	printf("관계를 입력해주세요 없을시 x입력 : ");
-	cin >> relation;
-	printf("Email 을 입력해주세요 없을시 x입력 : ");
-	cin >> Email;
-	while (1)
-	{
-		printf("0번 끝 1번:관계를 생성하시겠습니까? \n2번:이메일을 생성하시겠습니까?\n3번:둘다 생성?");
-		scanf_s("%d", &state);
-		if (state == 1)
-			cin >> relation; break;
-		if (state == 2)
-			cin >> email; break;
-		if (state == 3)
-		{
-			cin >> relation;
-			cin >> email;
-			break;
-		}
-		else
-			printf("1~3까지의 숫자를 다시 쳐주시길 바랍니다.\n");
-	}
-	pDevice->AddPerson(name, number, relation, email);
-	break;
-
-	/*
-	string sName, string sNumber, string sRelation, string sEmail;
 	CPerson NewPerson(sName, sNumber);
-	NewPerson.setRelation(sRelation);
-	NewPerson.setEmail(sEmail);
-	m_pPerson.push_back(NewPerson);*/
+	if (sRelation != "x") NewPerson.setRelation(sRelation);
+    if (sEmail != "x")    NewPerson.setEmail(sEmail);
+	m_pPerson.push_back(NewPerson);
 }
 
 void CAddressBook::DelPerson_Name(string sName)
@@ -220,21 +188,32 @@ void CAddressBook::Search()
 {
 }
 
-
 void CAddressBook::Run()
 {
+    MakeDir();
 	LoadPerson();
 	LoadRelation();
 	
-	// 0: 초기화면
-	int state = 0;
+	// 1 : 초기 화면
+    // 2 : 사람 추가
 
-	while (true) {
-		ShowPerson();
+	int state = 1;
+
+	while (state > 0) {
+
+        if (state == 1) {
+            ShowPerson();
+        }
+
 		int ichoice = CallMenu(state);
 
-		if (ichoice == 0) break; // 종료
-		if (ichoice == 1) AddPerson();
+        if (state == 1) {
+            if (ichoice == 0) break; // 종료
+            if (ichoice == 1) state = 2;
+        }
+        else if (state == 2) {
+            if (ichoice == 1) state = 1; //메인 화면으로 돌아감
+        }
 	}
 	/*
 	int state = 1;
@@ -304,16 +283,27 @@ void CAddressBook::Run()
 int CAddressBook::CallMenu(int state)
 {
 	int result = 0;
-	switch (state)
-	{
-	case 0:
-		printf("당신의 선택 0 나가기 1 사람 추가 2 사람 삭제 : ");
-		cin >> result;
-		if (result >= 0 && result < 3) return result;
-		break;
-	default:
-		break;
-	}
+    if (state == 1) {
+        printf("당신의 선택 0 나가기 1 사람 추가 2 사람 삭제 : ");
+        cin >> result;
+        if (result >= 0 && result < 3) return result;
+    }
+    else if (state == 2) {
+        string name = "", number = "", relation = "", Email = "";
+
+        printf("이름을 입력해주세요 : ");
+        cin >> name;
+        printf("번호를 입력해주세요 : ");
+        cin >> number;
+        ShowRelation();
+        printf("관계를 입력해주세요 없을시 x입력 : ");
+        cin >> relation;
+        printf("Email 을 입력해주세요 없을시 x입력 : ");
+        cin >> Email;
+
+        AddPerson(name, number, relation, Email);
+        return 1;
+    }
 	printf("wrong choice\n");
 	CallMenu(state);
 }
@@ -333,4 +323,11 @@ void CAddressBook::ShowRelation()
 	for (int i = 0; i < m_sRelation.size(); i++) {
 		cout << i << "." << m_sRelation[i] << endl;
 	}
+}
+
+void CAddressBook::MakeDir()
+{
+    char strFolderPath[] = { "\Data" };
+
+    int nResult = _mkdir(strFolderPath);
 }
