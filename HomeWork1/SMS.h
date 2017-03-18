@@ -10,5 +10,9 @@ private:
 public:
     CSMS(std::string sSender, std::string sReceiver, std::string sContent);
     ~CSMS();
+
+    std::string getSender() { return m_sSender; };
+    std::string getReceiver() { return m_sReceiver; };
+    std::string getContent() { return m_sContent; };
 };
 

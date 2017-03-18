@@ -246,7 +246,8 @@ void CAddressBook::Run()
             if (ichoice == 3) state = 3; // 관계 목록 추가
             if (ichoice == 4) state = 4; // 관계 목록 삭제
             if (ichoice == 5) state = 5; // 사람 검색
-            if (ichoice == 6) state = 6;
+            if (ichoice == 6) state = 6; // 정보 수정
+            if (ichoice == 7) state = 7; // SMS 보기 
         }
         else if (state == 1) {
             // 사람 추가 화면
@@ -272,7 +273,11 @@ void CAddressBook::Run()
             if (ichoice == 1) state = 0;
         }
         else if (state == 6) {
-            // 사람 검색 화면
+            // 사람 수정 화면
+            if (ichoice == 1) state = 0;
+        }
+        else if (state == 7) {
+            // SMS 화면
             if (ichoice == 1) state = 0;
         }
 	}
@@ -291,12 +296,13 @@ int CAddressBook::CallMenu(int state)
         printf("   4 : 관계 목록 삭제\n");
         printf("   5 : 사람 검색\n");
         printf("   6 : 정보 수정\n");
+        printf("   7 : SMS 보기\n");
 
 
         printf(" 선택해주세요 : ");
 
         cin >> result;
-        if (SelectCorrect(result, 6)) return result;
+        if (SelectCorrect(result, 7)) return result;
     }
     else if (state == 1) {
         int num;
@@ -487,6 +493,76 @@ int CAddressBook::CallMenu(int state)
         SavePerson();
         return 1;
     }
+    else if (state == 7) {
+        printf(" 당신의 선택 \n");
+        printf(" 0: 리스트내역으로 보기\n");
+        printf(" 1: 핸드폰번호로 검색하기\n");
+        printf(" 선택해주세요 : ");
+        int iSelect;
+        cin >> iSelect;
+
+        int iSelect2;
+        switch (iSelect) {
+        case 0:
+            ShowSMS();
+            printf("보고싶은 내용의 번호를 써주세요(숫자) :");
+            cin >> iSelect2;
+            ClearScreen();
+            if (iSelect < m_pSMS.size()) {
+                cout << "보낸사람 : " << m_pSMS[iSelect].getSender() << endl;
+                for (int i = 0; i < m_pPerson.size(); i++) {
+                    if (m_pPerson[i].getNumber() == m_pSMS[iSelect].getSender()) {
+                        cout << "# 이름 : " << m_pPerson[i].getName() <<
+                                " 관계 : " << m_pPerson[i].getRelation() << endl;
+                    }
+                }
+                cout << "받는사람 : " << m_pSMS[iSelect].getReceiver() << endl;
+                for (int i = 0; i < m_pPerson.size(); i++) {
+                    if (m_pPerson[i].getNumber() == m_pSMS[iSelect].getReceiver()) {
+                        cout << "# 이름 : " << m_pPerson[i].getName() <<
+                            " 관계 : " << m_pPerson[i].getRelation() << endl;
+                    }
+                }
+                cout << "내용 : " << m_pSMS[iSelect].getContent() << endl;
+            }
+            break;    
+        case 1:
+            printf("검색할 핸드폰 번호를 입력해주세요 : ");
+            string sNumber;
+            cin >> sNumber;
+
+            printf("----- 이 번호로 받은 내역 -----\n");
+            for (int i = 0; i < m_pSMS.size(); i++) {
+                if (m_pSMS[i].getReceiver() == sNumber) {
+                    cout << "보낸사람 번호: " << m_pSMS[i].getSender() << endl;
+                    for (int i = 0; i < m_pPerson.size(); i++) {
+                        if (m_pPerson[i].getNumber() == m_pSMS[iSelect].getSender()) {
+                            cout << "# 보낸사람 이름 : " << m_pPerson[i].getName() <<
+                                " 관계 : " << m_pPerson[i].getRelation() << endl;
+                        }
+                    }
+                }
+            }
+            printf("----- 이 번호로 보낸 내역 -----\n");
+            for (int i = 0; i < m_pSMS.size(); i++) {
+                if (m_pSMS[i].getSender() == sNumber) {
+                    cout << "받은사람 번호: " << m_pSMS[i].getReceiver() << endl;
+                    for (int i = 0; i < m_pPerson.size(); i++) {
+                        if (m_pPerson[i].getNumber() == m_pSMS[iSelect].getReceiver()) {
+                            cout << "# 받은사람 이름 : " << m_pPerson[i].getName() <<
+                                " 관계 : " << m_pPerson[i].getRelation() << endl;
+                        }
+                    }
+                }
+            }
+            break;
+        }
+        printf("아무거나 입력하시면 돌아갑니다.");
+        cin >> iSelect;
+
+
+        return 1;
+    }
 
 	printf("wrong choice\n");
 	CallMenu(state);
@@ -513,13 +589,24 @@ void CAddressBook::ShowRelation()
 	}
 }
 
+void CAddressBook::ShowSMS()
+{
+    cout << " SMS 목록" << endl;
+    for (int i = 0; i < m_pSMS.size(); i++) {
+        cout << i << ". " 
+            << "보낸사람 : " << m_pSMS[i].getSender()
+            << " 받은사람 : " << m_pSMS[i].getReceiver() << endl;
+    }
+
+}
+
 void CAddressBook::MakeDir()
 {
-    char strFolderPath[] = { "\Data" };
+    char strFolderPath[] = { "Data" };
 
     int nResult = _mkdir(strFolderPath);
 
-    char strFolderPath2[] = { "\Data\\SMS" };
+    char strFolderPath2[] = { "Data\\SMS" };
 
     nResult = _mkdir(strFolderPath2);
 }

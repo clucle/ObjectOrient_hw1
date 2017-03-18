@@ -49,6 +49,7 @@ public:
 	int CallMenu(int state);
 	void ShowPerson();
 	void ShowRelation();
+    void ShowSMS();
 
     // mkdir
     void MakeDir();
