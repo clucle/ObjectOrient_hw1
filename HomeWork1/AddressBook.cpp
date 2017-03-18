@@ -201,6 +201,7 @@ void CAddressBook::Run()
 	int state = 1;
 
 	while (state > 0) {
+        ClearScreen();
         if (state == 1) {
             ShowPerson();
         }
@@ -214,7 +215,7 @@ void CAddressBook::Run()
         else if (state == 2) {
             if (ichoice == 1) state = 1; //메인 화면으로 돌아감
         }
-        ClearScreen();
+        
 	}
 	/*
 	int state = 1;
