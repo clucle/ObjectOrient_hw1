@@ -149,10 +149,12 @@
     <ClCompile Include="AddressBook.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Person.cpp" />
+    <ClCompile Include="Search.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddressBook.h" />
     <ClInclude Include="Person.h" />
+    <ClInclude Include="Search.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
