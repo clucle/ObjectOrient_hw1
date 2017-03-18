@@ -157,7 +157,7 @@ void CAddressBook::LoadRelation()
 
 void CAddressBook::LoadSMS()
 {
-    for (int i = 0; i < 20; i++) {
+    for (int i = 1; i < 21; i++) {
         /* SMS 불러오기 */
         ifstream fin_entry("Data/SMS/SMS" + to_string(i) + ".txt");
         char receive[1024];
@@ -534,25 +534,29 @@ int CAddressBook::CallMenu(int state)
             printf("----- 이 번호로 받은 내역 -----\n");
             for (int i = 0; i < m_pSMS.size(); i++) {
                 if (m_pSMS[i].getReceiver() == sNumber) {
+                    
                     cout << "보낸사람 번호: " << m_pSMS[i].getSender() << endl;
-                    for (int i = 0; i < m_pPerson.size(); i++) {
-                        if (m_pPerson[i].getNumber() == m_pSMS[iSelect].getSender()) {
-                            cout << "# 보낸사람 이름 : " << m_pPerson[i].getName() <<
-                                " 관계 : " << m_pPerson[i].getRelation() << endl;
+                    for (int k = 0; k < m_pPerson.size(); k++) {
+                        if (m_pPerson[k].getNumber() == m_pSMS[i].getSender()) {
+                            cout << "# 보낸사람 이름 : " << m_pPerson[k].getName() <<
+                                " 관계 : " << m_pPerson[k].getRelation() << endl;
                         }
                     }
+                    cout << "내용 : " << m_pSMS[i].getContent() << endl;
                 }
             }
             printf("----- 이 번호로 보낸 내역 -----\n");
             for (int i = 0; i < m_pSMS.size(); i++) {
+                
                 if (m_pSMS[i].getSender() == sNumber) {
                     cout << "받은사람 번호: " << m_pSMS[i].getReceiver() << endl;
-                    for (int i = 0; i < m_pPerson.size(); i++) {
-                        if (m_pPerson[i].getNumber() == m_pSMS[iSelect].getReceiver()) {
-                            cout << "# 받은사람 이름 : " << m_pPerson[i].getName() <<
+                    for (int k = 0; k < m_pPerson.size(); k++) {
+                        if (m_pPerson[k].getNumber() == m_pSMS[k].getReceiver()) {
+                            cout << "# 받은사람 이름 : " << m_pPerson[k].getName() <<
                                 " 관계 : " << m_pPerson[i].getRelation() << endl;
                         }
                     }
+                    cout << "내용 : " << m_pSMS[i].getContent() << endl;
                 }
             }
             break;
