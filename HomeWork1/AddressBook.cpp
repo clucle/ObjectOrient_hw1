@@ -44,7 +44,7 @@ void CAddressBook::DelPerson_Pnumber(string sNumber)
 void CAddressBook::DelPerson_Order(int iOrder)
 {
     // 순서로 삭제
-	m_pPerson.erase(m_pPerson.begin() + iOrder);
+	m_pPerson.erase(m_pPerson.begin() + iOrder - 1);
 }
 void CAddressBook::AddRelation(string sName)
 {
@@ -197,7 +197,7 @@ void CAddressBook::Run()
 	
 	// 1 : 초기 화면
     // 2 : 사람 추가
-
+    // 3 : 사람 삭제
 	int state = 1;
 
 	while (state > 0) {
@@ -211,75 +211,19 @@ void CAddressBook::Run()
         if (state == 1) {
             if (ichoice == 0) break; // 종료
             if (ichoice == 1) state = 2; // 사람 추가
+            if (ichoice == 2) state = 3; // 사람 삭제
         }
         else if (state == 2) {
             if (ichoice == 1) state = 1; //메인 화면으로 돌아감
         }
+        else if (state == 3) {
+            if (ichoice == 0){
+                state = 1;
+            }
+            if (ichoice == 1) state = 1; //메인 화면으로 돌아감
+        }
         
 	}
-	/*
-	int state = 1;
-	string name;
-	string number;
-	string relation;
-	string email;
-	// basic addperson
-	while (state) {
-		//연락처를 먼저 보여준다. 보통 스마트폰이 연락처를 먼저 보여준다.
-		pDevice->ShowPerson();
-
-		printf("당신의 선택 0 나가기 1 사람 추가 2 사람 삭제 : \n");
-		scanf_s("%d", &state);
-
-		switch (state)
-		{
-		case 0:
-			break;
-		case 1:
-		{
-			
-		}
-		case 2:
-		{
-			int pick = 0;
-			string Name;
-			string PhoneNumber;
-			int Order;
-			printf("전화 번호 리스트를 봅니다\n");
-			pDevice->ShowPerson();
-			printf("어떤방법으로 삭제하실건가요?\n");
-			printf("1: 이름, 2: 전화번호, 3: 넘버 :");
-
-			cin >> pick;
-
-			switch (pick)
-			{
-			case 1:
-				printf("누구를 지우시겠습니까?");
-				cin >> Name;
-				pDevice->DelPerson_Name(Name);
-				break;
-			case 2:
-				printf("누구를 지우시겠습니까?");
-				cin >> PhoneNumber;
-				pDevice->DelPerson_Pnumber(PhoneNumber);
-				break;
-			case 3:
-				printf("몇 번째를 지우시겠습니까?");
-				cin >> Order;
-				pDevice->DelPerson_Order(Order - 1);
-				break;
-			default:
-				printf("1~3까지의 숫자를 쳐주세요");
-				break;
-			}
-		}
-
-		default:
-			//printf("0~?까지의 숫자를 치세요);
-			break;
-		}
-	}*/
 }
 
 int CAddressBook::CallMenu(int state)
@@ -294,7 +238,7 @@ int CAddressBook::CallMenu(int state)
         printf(" 선택해주세요 : ");
 
         cin >> result;
-        if (result >= 0 && result < 3) return result;
+        if (SelectCorrect(result, 2)) return result;
     }
     else if (state == 2) {
         string name = "", number = "", relation = "", Email = "";
@@ -312,17 +256,53 @@ int CAddressBook::CallMenu(int state)
         AddPerson(name, number, relation, Email);
         return 1;
     }
+    else if (state == 3) {
+        printf("\n어떤방법으로 삭제하실건가요?\n");
+        printf("0: 이름, 1: 전화번호, 2: 리스트로 삭제 :");
+
+        int pick = 0;
+        cin >> pick;
+
+        if (!SelectCorrect(result, 2)) return 0; // error
+
+        ShowPerson();
+
+        string sInput;
+        int iInput;
+
+        if (pick == 0) {
+            printf("\n지울 사람의 이름을 입력해주세요 : ");
+            cin >> sInput;
+            DelPerson_Name(sInput);
+        }
+        else if (pick == 1) {
+            printf("\n지울 사람의 번호를 입력해주세요 : ");
+            cin >> sInput;
+            DelPerson_Pnumber(sInput);
+        }
+        else if (pick == 2) {
+            printf("\n지울 사람의 리스트 번호를 입력해주세요 : ");
+            cin >> iInput;
+            DelPerson_Order(iInput);
+        }
+        SavePerson();
+        return 1;
+    }
+
 	printf("wrong choice\n");
 	CallMenu(state);
 }
 void CAddressBook::ShowPerson()
 {
 	cout << "      연락처" << endl;
-	printf("이름  번호        관계   이메일\n");
+	printf("n 이름  번호        관계   이메일\n");
 	vector<CPerson>::iterator it = m_pPerson.begin();
+    int k = 1;
 	for (; it < m_pPerson.end(); it++) {
-		cout << it->getName()<< ' ' << it->getNumber()<<' ' <<
-			    it->getRelation()<<' '<< it->getEmail()<<endl;
+        cout << k << ' ';
+		cout << it->getName() << ' ' << it->getNumber() <<' ' <<
+			    it->getRelation() <<' '<< it->getEmail() <<endl;
+        k++;
 	}
     printf("------------------------------------");
 }
@@ -339,4 +319,12 @@ void CAddressBook::MakeDir()
     char strFolderPath[] = { "\Data" };
 
     int nResult = _mkdir(strFolderPath);
+}
+
+bool CAddressBook::SelectCorrect(int num, int max)
+{
+    for (int i = 0; i <= max; i++) {
+        if (i == num) return true;
+    }
+    return false;
 }
