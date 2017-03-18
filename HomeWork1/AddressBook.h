@@ -1,6 +1,7 @@
 #pragma once
 #include "Person.h"
 #include "Search.h"
+#include "SMS.h"
 #include <fstream>
 #include <iostream>
 #include <algorithm>
@@ -10,11 +11,12 @@ using namespace std;
 class CAddressBook
 {
 private:
-    unsigned __int16 m_nCount;
     vector<CPerson> m_pPerson;
 
     vector<string> m_sRelation;
     unsigned __int16 m_nRelation = 20;
+
+    vector<CSMS> m_pSMS;
 
 public:
     CAddressBook();
@@ -31,6 +33,7 @@ public:
 
     void LoadPerson();
     void LoadRelation();
+    void LoadSMS();
 
     void SavePerson();
     void SaveRelation();

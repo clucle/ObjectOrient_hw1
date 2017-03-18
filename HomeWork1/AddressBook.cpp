@@ -155,6 +155,35 @@ void CAddressBook::LoadRelation()
     }
 }
 
+void CAddressBook::LoadSMS()
+{
+    for (int i = 0; i < 20; i++) {
+        /* SMS 불러오기 */
+        ifstream fin_entry("Data/SMS/SMS" + to_string(i) + ".txt");
+        char receive[1024];
+
+
+        if (fin_entry.is_open()) {
+            string sSender;
+            string sReceiver;
+            string sContent = "";
+
+            int nCount = 0;
+
+            while (fin_entry.getline(receive, sizeof(receive)))
+            {
+                if (nCount == 0) sSender = receive;
+                if (nCount == 1) sReceiver = receive;
+                if (nCount > 1) sContent += receive;
+                nCount++;
+            }
+
+            CSMS sms(sSender, sReceiver, sContent);
+            m_pSMS.push_back(sms);
+        }
+    }
+}
+
 void CAddressBook::SavePerson()
 {
     ofstream fout;
@@ -197,6 +226,7 @@ void CAddressBook::Run()
     MakeDir();
 	LoadPerson();
 	LoadRelation();
+    LoadSMS();
 	
 	int state = 0;
 
@@ -207,7 +237,7 @@ void CAddressBook::Run()
         }
 
 		int ichoice = CallMenu(state);
-
+        
         if (state == 0) {
             // 메인화면
             if (ichoice == 0) break; // 종료
