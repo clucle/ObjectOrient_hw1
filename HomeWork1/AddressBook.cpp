@@ -236,6 +236,10 @@ void CAddressBook::Run()
             // 관계 삭제 화면
             if (ichoice == 1) state = 0;
         }
+        else if (state == 5) {
+            // 사람 검색 화면
+            if (ichoice == 1) state = 0;
+        }
 	}
 }
 
@@ -283,7 +287,7 @@ int CAddressBook::CallMenu(int state)
         int pick = 0;
         cin >> pick;
 
-        if (!SelectCorrect(result, 2)) return 0; // error
+        if (!SelectCorrect(result, 2)) return 1; // error
 
         ShowPerson();
 
@@ -322,6 +326,46 @@ int CAddressBook::CallMenu(int state)
         printf("\n삭제할 관계 목록을 적어주세요 : ");
         cin >> sInput;
         DelRelation(sInput);
+        return 1;
+    }
+    else if (state == 5) {
+        printf("\n어떤방법으로 검색하실건가요?\n");
+        printf("0: 이름, 1: 전화번호, 2: 관계  로 검색 :");
+
+        int pick = 0;
+        cin >> pick;
+
+        if (!SelectCorrect(result, 2)) return 1;
+
+
+        if (pick < 2) {
+            printf("검색할 단어의 일부 : ");
+        }
+
+        if (pick == 2) {
+            int iRelation;
+            ShowRelation();
+            printf("관계 번호를 입력해주세요: ");
+            cin >> iRelation;
+
+            cout << "\n      연락처" << endl;
+            printf("n 이름  번호        관계   이메일\n");
+            int k = 0;
+            for (int i = 0; i < m_pPerson.size(); i++) {
+                if (m_pPerson[i].getRelation() == m_sRelation[iRelation]) {
+                    cout << k << ' ';
+                    cout << m_pPerson[i].getName() << ' ' << m_pPerson[i].getNumber() << ' ' <<
+                        m_pPerson[i].getRelation() << ' ' << m_pPerson[i].getEmail() << endl;
+                    k++;
+                }
+            }
+        }
+        
+        printf("\n아무거나 입력하면 돌아갑니다.\n");
+
+        string noProgress;
+        cin >> noProgress;
+        
         return 1;
     }
 
