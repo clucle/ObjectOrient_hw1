@@ -488,6 +488,10 @@ void CAddressBook::MakeDir()
     char strFolderPath[] = { "\Data" };
 
     int nResult = _mkdir(strFolderPath);
+
+    char strFolderPath2[] = { "\Data\\SMS" };
+
+    nResult = _mkdir(strFolderPath2);
 }
 
 bool CAddressBook::SelectCorrect(int num, int max)
