@@ -551,8 +551,8 @@ int CAddressBook::CallMenu(int state)
                 if (m_pSMS[i].getSender() == sNumber) {
                     cout << "받은사람 번호: " << m_pSMS[i].getReceiver() << endl;
                     for (int k = 0; k < m_pPerson.size(); k++) {
-                        if (m_pPerson[k].getNumber() == m_pSMS[k].getReceiver()) {
-                            cout << "# 받은사람 이름 : " << m_pPerson[k].getName() <<
+                        if (m_pPerson[k].getNumber() == m_pSMS[i].getReceiver()) {
+                            cout << "# 받은사람 이름 : " << m_pPerson[i].getName() <<
                                 " 관계 : " << m_pPerson[i].getRelation() << endl;
                         }
                     }
