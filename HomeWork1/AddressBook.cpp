@@ -314,8 +314,12 @@ int CAddressBook::CallMenu(int state)
         cin >> number;
         ShowRelation();
         printf("관계번호를 입력해주세요(숫자) 없을시 x입력 : ");
-        if (m_sRelation.size() > 0) cin >> num;
-        if (num < m_sRelation.size()) relation = m_sRelation[num];
+        if (m_sRelation.size() > 0) cin >> relation;
+        if (relation != "x") {
+            num = atoi(relation.c_str());
+            if (SelectCorrect(num, m_sRelation.size() - 1)) relation = m_sRelation[num];
+        }
+            
         
         printf("Email 을 입력해주세요 없을시 x입력 : ");
         cin >> Email;
@@ -570,6 +574,7 @@ int CAddressBook::CallMenu(int state)
 
 	printf("wrong choice\n");
 	CallMenu(state);
+    return 1;
 }
 void CAddressBook::ShowPerson()
 {
