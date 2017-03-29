@@ -7,16 +7,16 @@
 class CSMS
 {
 private:
-    std::string m_sSender;
-    std::string m_sReceiver;
+    std::string m_sType;
+    std::string m_sNumber;
     std::string m_sContent;
 
 public:
-    CSMS(std::string sSender, std::string sReceiver, std::string sContent);
+    CSMS(std::string sType, std::string sNumber, std::string sContent);
     ~CSMS();
 
-    std::string getSender() { return m_sSender; };
-    std::string getReceiver() { return m_sReceiver; };
+    std::string getType() { return m_sType; };
+    std::string getNumber() { return m_sNumber; };
     std::string getContent() { return m_sContent; };
 };
 

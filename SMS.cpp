@@ -1,10 +1,10 @@
 #include "SMS.h"
 
 
-CSMS::CSMS(std::string sSender, std::string sReceiver, std::string sContent)
+CSMS::CSMS(std::string sType, std::string sNumber, std::string sContent)
 {
-    m_sSender = sSender;
-    m_sReceiver = sReceiver;
+    m_sType = sType;
+    m_sNumber = sNumber;
     m_sContent = sContent;
 }
 
