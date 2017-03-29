@@ -107,8 +107,6 @@ void CAddressBook::DoSearchPerson()
     std::cin >> pick;
 
     if (!SelectCorrect(pick, 2)) return ;
-    
-    if (pick == 1) 
 
     if (pick < 2) {
         printf("검색할 단어의 일부 : ");
