@@ -434,9 +434,9 @@ void CAddressBook::WatchSMSReceiver()
 void CAddressBook::MakeDir()
 {
     char strFolderPath[] = { "Data" };
-    int nResult = _mkdir(strFolderPath);
+    int nResult = mkdir(strFolderPath, S_IRWXU);
     char strFolderPath2[] = { "Data\\SMS" };
-    nResult = _mkdir(strFolderPath2);
+    nResult = mkdir(strFolderPath2, S_IRWXU);
 }
 
 void CAddressBook::LoadPerson()
@@ -458,7 +458,7 @@ void CAddressBook::LoadPerson()
 
             int count = 0;
             char *context = NULL;
-            char *ptr = strtok_s(receive, "&*(", &context);      // " " 공백 문자를 기준으로 문자열을 자름, 포인터 반환
+            char *ptr = strtok(receive, "&*(");      // " " 공백 문자를 기준으로 문자열을 자름, 포인터 반환
 
             while (ptr != NULL)               // 자른 문자열이 나오지 않을 때까지 반복
             {
@@ -468,9 +468,9 @@ void CAddressBook::LoadPerson()
                 if (count == 3) sEmail = ptr;
 
                 count++;
-                ptr = strtok_s(NULL, "&*(", &context);      // 다음 문자열을 잘라서 포인터를 반환
+                ptr = strtok(NULL, "&*(");      // 다음 문자열을 잘라서 포인터를 반환
             }
-            CPerson person(sName, sNumber);
+            CPerson person(sName.c_str(), sNumber);
             if (sRelation != "") person.setRelation(sRelation);
             if (sEmail != "") person.setEmail(sEmail);
 
@@ -507,7 +507,13 @@ void CAddressBook::LoadSMS()
 {
     for (int i = 1; i < 21; i++) {
         /* SMS 불러오기 */
-        ifstream fin_entry("Data/SMS/SMS" + to_string(i) + ".txt");
+	string index;
+	stringstream out;
+	out << i;
+	index = out.str();
+	string path = "Data/SMS/SMS" + index + ".txt";
+	ifstream fin_entry;
+	fin_entry.open(path.c_str());
         char receive[1024];
 
 

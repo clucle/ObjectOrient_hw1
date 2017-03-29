@@ -7,12 +7,11 @@
 #include "Person.h"
 #include "Search.h"
 #include "SMS.h"
-
-
+#include <sys/stat.h>
+#include <sstream>
 #include <fstream>
 #include <iostream>
 #include <algorithm>
-#include <direct.h>
 
 using namespace std;
 class CAddressBook
@@ -21,7 +20,7 @@ private:
     vector<CPerson> m_pPerson;
 
     vector<string> m_sRelation;
-    unsigned __int16 m_nRelation;
+    unsigned int m_nRelation;
 
     vector<CSMS> m_pSMS;
 
