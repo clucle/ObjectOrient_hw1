@@ -23,6 +23,8 @@ private:
     unsigned int m_nRelation;
 
     vector<CSMS> m_pSMS;
+    vector<CSMS> m_pReceiveSMS;
+	vector<CSMS> m_pSendSMS;
 
 public:
     CAddressBook();
@@ -62,8 +64,8 @@ private:
     void ModifyPersonEmail(int iNum);
 
     void WatchSMSOrder();
-    void WatchSMSSender();
-    void WatchSMSReceiver();
+    void WatchSMSSend();
+    void WatchSMSReceive();
 
 
 private:
