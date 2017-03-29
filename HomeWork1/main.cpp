@@ -5,7 +5,7 @@ int ScreenMainMenu();
 
 int main() {
     CAddressBook* pDevice = new CAddressBook();
-	
+	printf("Type your Phone number?\n");
     // Load Data, Clear Screen
     pDevice->Init();
 

@@ -22,15 +22,16 @@ private:
 
     vector<string> m_sRelation;
     unsigned __int16 m_nRelation;
-
     vector<CSMS> m_pSMS;
+	vector<CSMS> m_pReceiveSMS;
+	vector<CSMS> m_pSendSMS;
+
 
 public:
     CAddressBook();
     ~CAddressBook();
 
     void Init();
-
 public:
     // 유저 접근 (기능 단위 Do)
     void DoAddPerson();
@@ -63,8 +64,8 @@ private:
     void ModifyPersonEmail(int iNum);
 
     void WatchSMSOrder();
-    void WatchSMSSender();
-    void WatchSMSReceiver();
+    void WatchSMSSend();
+    void WatchSMSReceive();
 
 
 private:

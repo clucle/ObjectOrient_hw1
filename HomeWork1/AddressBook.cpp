@@ -1,6 +1,5 @@
 #include "AddressBook.h"
 
-
 CAddressBook::CAddressBook()
 {
     m_nRelation = 20;
@@ -20,6 +19,7 @@ void CAddressBook::Init()
     LoadSMS();
     ClearScreen();
 }
+
 
 // 유저 접근 (기능 단위 Do)
 void CAddressBook::DoAddPerson()
@@ -106,9 +106,7 @@ void CAddressBook::DoSearchPerson()
     std::cin >> pick;
 
     if (!SelectCorrect(pick, 2)) return ;
-    
-
-		
+  		
     if (pick < 2) {
         printf("검색할 단어의 일부 : ");
         string sFind;
@@ -170,8 +168,8 @@ void CAddressBook::DoWatchSMS()
 {
     printf(" 당신의 선택 \n");
     printf(" 0: 리스트내역으로 보기\n");
-    printf(" 1: 보낸사람번호로 검색하기\n");
-    printf(" 2: 받은사람번호로 검색하기\n");
+    printf(" 1: 발신메시지 보기\n");
+    printf(" 2: 수신메시지 보기\n");
     printf(" 선택해주세요 : ");
     int iSelect;
     std::cin >> iSelect;
@@ -181,10 +179,10 @@ void CAddressBook::DoWatchSMS()
         WatchSMSOrder();
         break;
     case 1:
-        WatchSMSSender();
+        WatchSMSSend();
         break;
     case 2:
-        WatchSMSReceiver();
+        WatchSMSReceive();
         break;
     }
     printf("아무거나 입력하시면 돌아갑니다.");
@@ -245,7 +243,7 @@ void CAddressBook::AddRelation(string sName)
             it = find(m_sRelation.begin(), m_sRelation.end(), sName);
             if (it != m_sRelation.end())
             {
-                // error same Relation
+				printf("\nError!! Back to Main\n");
             }
             else {
                 m_sRelation.push_back(sName);
@@ -253,7 +251,7 @@ void CAddressBook::AddRelation(string sName)
             }
         }
         else {
-            // error non blank plz
+			printf("\nError!! Back to Main\n");
         }
     }
 }
@@ -268,12 +266,12 @@ void CAddressBook::DelRelation(string sName)
             SaveRelation();
         }
         else {
-            // error can't find
+			printf("\nError!! Back to Main\n");
         }
 
     }
     else {
-        // error non blank plz
+		printf("\nError!! Back to Main\n");
     }
 }
 
@@ -369,64 +367,86 @@ void CAddressBook::WatchSMSOrder()
     std::cin >> iSelect;
     ClearScreen();
     if (iSelect < m_pSMS.size()) {
-        cout << "보낸사람 : " << m_pSMS[iSelect].getSender() << endl;
+        cout << "번호 : " << m_pSMS[iSelect].getNumber() << endl;
         for (int i = 0; i < m_pPerson.size(); i++) {
-            if (m_pPerson[i].getNumber() == m_pSMS[iSelect].getSender()) {
+            if (m_pPerson[i].getNumber() == m_pSMS[iSelect].getNumber()) {
                 cout << "# 이름 : " << m_pPerson[i].getName() <<
                     " 관계 : " << m_pPerson[i].getRelation() << endl;
             }
         }
-        cout << "받는사람 : " << m_pSMS[iSelect].getReceiver() << endl;
+        /*cout << "수신 : " << m_pSMS[iSelect].getNumber() << endl;
         for (int i = 0; i < m_pPerson.size(); i++) {
-            if (m_pPerson[i].getNumber() == m_pSMS[iSelect].getReceiver()) {
+            if (m_pPerson[i].getNumber() == m_pSMS[iSelect].getNumber()) {
                 cout << "# 이름 : " << m_pPerson[i].getName() <<
                     " 관계 : " << m_pPerson[i].getRelation() << endl;
             }
-        }
+        }*/
         cout << "내용 : " << m_pSMS[iSelect].getContent() << endl;
     }
 }
 
-void CAddressBook::WatchSMSSender()
+void CAddressBook::WatchSMSSend()
 {
-    printf("검색할 핸드폰 번호를 입력해주세요 : ");
     string sNumber;
-    std::cin >> sNumber;
-    printf("----- 이 번호로 보낸 내역 -----\n");
+	int pick = 0;
+	int count = 0;
+    printf("----- 보낸 내역 -----\n");
     for (int i = 0; i < m_pSMS.size(); i++) {
 
-        if (m_pSMS[i].getSender() == sNumber) {
-            cout << "받은사람 번호: " << m_pSMS[i].getReceiver() << endl;
+        if (m_pSMS[i].getType() == "Send") {
+            cout <<count++ <<": 보낸 번호: " << m_pSMS[i].getNumber() << endl;
             for (int k = 0; k < m_pPerson.size(); k++) {
-                if (m_pPerson[k].getNumber() == m_pSMS[i].getReceiver()) {
-                    cout << "# 받은사람 이름 : " << m_pPerson[i].getName() <<
+                if (m_pPerson[k].getNumber() == m_pSMS[i].getNumber()) 
+				{
+                    cout << "# 받는사람 이름 : " << m_pPerson[i].getName() <<
                         " 관계 : " << m_pPerson[i].getRelation() << endl;
                 }
             }
             cout << "내용 : " << m_pSMS[i].getContent() << endl;
         }
     }
+	printf("몇번째를 보시겠습니까?: ");
+	cin >> pick;
+	cout << "발신 번호: " << m_pSendSMS[pick].getNumber() << endl;
+	for (int k = 0; k < m_pPerson.size(); k++) {
+		if (m_pPerson[k].getNumber() == m_pSendSMS[pick].getNumber()) {
+			cout << "# 보낸사람 이름 : " << m_pPerson[k].getName() <<
+				" 관계 : " << m_pPerson[k].getRelation() << endl;
+		}
+	}
+	cout << "내용 : " << m_pSendSMS[pick].getContent() << endl;
+
 }
 
-void CAddressBook::WatchSMSReceiver()
+void CAddressBook::WatchSMSReceive()
 {
-    printf("검색할 핸드폰 번호를 입력해주세요 : ");
-    string sNumber;
-    std::cin >> sNumber;
-    printf("----- 이 번호로 받은 내역 -----\n");
-    for (int i = 0; i < m_pSMS.size(); i++) {
-        if (m_pSMS[i].getReceiver() == sNumber) {
+	int pick = 0;
+	int count = 0;
+	printf("----- 수신 내역 -----\n");
+	for (int i = 0; i < m_pSMS.size(); i++) {
+		if (m_pSMS[i].getType() == "Receive") {
 
-            cout << "보낸사람 번호: " << m_pSMS[i].getSender() << endl;
-            for (int k = 0; k < m_pPerson.size(); k++) {
-                if (m_pPerson[k].getNumber() == m_pSMS[i].getSender()) {
-                    cout << "# 보낸사람 이름 : " << m_pPerson[k].getName() <<
-                        " 관계 : " << m_pPerson[k].getRelation() << endl;
-                }
-            }
-            cout << "내용 : " << m_pSMS[i].getContent() << endl;
-        }
-    }
+			cout << count++<<":  " << "수신 번호: " << m_pSMS[i].getNumber() << endl;
+			for (int k = 0; k < m_pPerson.size(); k++) {
+				if (m_pPerson[k].getNumber() == m_pSMS[i].getNumber()) {
+					cout << "# 보낸사람 이름 : " << m_pPerson[k].getName() <<
+						" 관계 : " << m_pPerson[k].getRelation() << endl;
+				}
+			}
+			//cout << "내용 : " << m_pSMS[i].getContent() << endl;
+		}
+	}
+	printf("몇번째를 보시겠습니까?: ");
+	cin >> pick;
+	cout << "수신 번호: " << m_pReceiveSMS[pick].getNumber() << endl;
+	for (int k = 0; k < m_pPerson.size(); k++) {
+		if (m_pPerson[k].getNumber() == m_pReceiveSMS[pick].getNumber()) {
+			cout << "# 보낸사람 이름 : " << m_pPerson[k].getName() <<
+				" 관계 : " << m_pPerson[k].getRelation() << endl;
+		}
+	}
+	cout << "내용 : " << m_pReceiveSMS[pick].getContent() << endl;
+	
 }
 
 // 내부 로직 처리
@@ -511,22 +531,26 @@ void CAddressBook::LoadSMS()
 
 
         if (fin_entry.is_open()) {
-            string sSender;
-            string sReceiver;
+            string sType;
+            string sNumber;
             string sContent = "";
 
             int nCount = 0;
 
             while (fin_entry.getline(receive, sizeof(receive)))
             {
-                if (nCount == 0) sSender = receive;
-                if (nCount == 1) sReceiver = receive;
+                if (nCount == 0) sType = receive;
+                if (nCount == 1) sNumber = receive;
                 if (nCount > 1) sContent += receive;
                 nCount++;
             }
 
-            CSMS sms(sSender, sReceiver, sContent);
+            CSMS sms(sType, sNumber, sContent);
             m_pSMS.push_back(sms);
+			if (sType == "Receive")
+				m_pReceiveSMS.push_back(sms);
+			else
+				m_pSendSMS.push_back(sms);
         }
     }
 }
@@ -597,8 +621,8 @@ void CAddressBook::ShowSMS()
 {
     cout << " SMS 목록" << endl;
     for (int i = 0; i < m_pSMS.size(); i++) {
-        cout << i << ". "
-            << "보낸사람 : " << m_pSMS[i].getSender()
-            << " 받은사람 : " << m_pSMS[i].getReceiver() << endl;
+		cout << i << ". "
+			<< "타입 : " << m_pSMS[i].getType()<<"\t"
+            << "번호 : " << m_pSMS[i].getNumber() << endl;
     }
 }
