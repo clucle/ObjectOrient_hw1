@@ -58,7 +58,6 @@ void CAddressBook::DoDelPerson()
     if (!SelectCorrect(pick, 2)) return ; // error
 
     ShowPerson();
-
     string sInput;
     int iInput;
 
@@ -108,8 +107,8 @@ void CAddressBook::DoSearchPerson()
 
     if (!SelectCorrect(pick, 2)) return ;
     
-    if (pick == 1) 
 
+		
     if (pick < 2) {
         printf("검색할 단어의 일부 : ");
         string sFind;
