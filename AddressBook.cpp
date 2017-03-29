@@ -625,8 +625,8 @@ void CAddressBook::ShowSMS()
 {
     cout << " SMS 목록" << endl;
     for (int i = 0; i < m_pSMS.size(); i++) {
-        cout << i << ". "
-            << "보낸사람 : " << m_pSMS[i].getSender()
-            << " 받은사람 : " << m_pSMS[i].getReceiver() << endl;
+		cout << i << ". "
+			<< "타입 : " << m_pSMS[i].getType()<<"\t"
+            << "번호 : " << m_pSMS[i].getNumber() << endl;
     }
 }
